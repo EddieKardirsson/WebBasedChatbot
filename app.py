@@ -11,3 +11,20 @@ import os
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY")
 )
+
+messages = []
+
+# Capture user input
+user_input = input("enter your prompt: ")
+
+# Prompt preparation
+messages.append({"role": "user", "content": user_input})
+
+# Send the API call
+response = client.chat.completions.create(
+    messages=messages,
+    model="gpt-3.5-turbo"
+)
+
+# Share response in console
+print(response.choices[0].message.content)
