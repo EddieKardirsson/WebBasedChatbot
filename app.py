@@ -14,17 +14,26 @@ client = OpenAI(
 
 messages = []
 
-# Capture user input
-user_input = input("enter your prompt: ")
+while True:
+    # Capture user input
+    user_input = input("enter your prompt: ")
 
-# Prompt preparation
-messages.append({"role": "user", "content": user_input})
+    # Quit the loop if user presses 'q'
+    if (user_input == 'q' or user_input == 'Q' or user_input == 'exit' or
+            user_input == 'Exit' or user_input == 'EXIT'):
+        exit()
 
-# Send the API call
-response = client.chat.completions.create(
-    messages=messages,
-    model="gpt-3.5-turbo"
-)
+    # Prompt preparation
+    messages.append({"role": "user", "content": user_input})
 
-# Share response in console
-print(response.choices[0].message.content)
+    # Send the API call
+    response = client.chat.completions.create(
+        messages=messages,
+        model="gpt-3.5-turbo"
+    )
+
+    # Display response in console
+    print(response.choices[0].message.content)
+
+    # Expanding the conversation
+    messages.append(response.choices[0].message.content)
