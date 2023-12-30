@@ -14,9 +14,35 @@ client = OpenAI(
 
 messages = []
 
+prompt = {
+    "role": "system",
+    "content": "You are a quiz. Present the user with a multiple-choice question to practice for an "
+               "Unreal Engine C++ API interview, "
+               "they have to respond by typing a, b, c, d or e. Only one question at a time. Wait until the user "
+               "responds before presenting a new question or the answer to the previous question"
+}
+messages.append(prompt)
+
 while True:
+
+    # Send the API call
+    response = client.chat.completions.create(
+        messages=messages,
+        model="gpt-3.5-turbo",
+        max_tokens=256
+    )
+
+    # Display response in console
+    print(response.choices[0].message.content)
+
+    # Expanding the conversation
+    messages.append(response.choices[0].message)
+
+    # Adding prompt again to continue with the quiz
+    messages.append(prompt)
+
     # Capture user input
-    user_input = input("enter your prompt: ")
+    user_input = input("enter your answer: ")
 
     # Quit the loop if user presses 'q'
     if (user_input == 'q' or user_input == 'Q' or user_input == 'exit' or
@@ -25,15 +51,3 @@ while True:
 
     # Prompt preparation
     messages.append({"role": "user", "content": user_input})
-
-    # Send the API call
-    response = client.chat.completions.create(
-        messages=messages,
-        model="gpt-3.5-turbo"
-    )
-
-    # Display response in console
-    print(response.choices[0].message.content)
-
-    # Expanding the conversation
-    messages.append(response.choices[0].message.content)
