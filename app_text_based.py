@@ -44,7 +44,7 @@ while True:
     # Capture user input
     user_input = input("enter your answer: ")
 
-    # Quit the loop if user presses 'q'
+    # Quit the loop if user presses 'q' or "exit"
     if (user_input == 'q' or user_input == 'Q' or user_input == 'exit' or
             user_input == 'Exit' or user_input == 'EXIT'):
         exit()
